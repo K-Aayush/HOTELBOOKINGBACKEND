@@ -30,7 +30,7 @@ router.post(
       }
 
       user = new User(req.body);
-      await user.save();
+      await user.save(); 
 
       const token = jwt.sign(
         { userId: user.id },
@@ -46,7 +46,7 @@ router.post(
         maxAge: 86400000,
       });
 
-      res.sendStatus(200);
+      res.status(200).send({ message: "User registered Successfully" });
     } catch (error) {
       res.status(500).send({ message: "Something went wrong" });
     }
