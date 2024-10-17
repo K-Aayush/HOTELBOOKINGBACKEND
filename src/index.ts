@@ -4,6 +4,7 @@ import "dotenv/config";
 import { dbConnection } from "./database/dbConnection";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
+import myHotelRoutes from "./routes/myHotels";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 
@@ -28,7 +29,7 @@ dbConnection();
 
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
-
+app.use("/api/my-hotels", myHotelRoutes);
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
