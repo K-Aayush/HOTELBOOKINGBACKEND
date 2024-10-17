@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
+import Hotel, { HotelType } from "../models/hotel";
 
 const router = express.Router();
 
@@ -19,7 +20,7 @@ router.post(
   async (req: Request, res: Response) => {
     try {
       const imageFiles = req.files as Express.Multer.File[];
-      const newHotel = req.body;
+      const newHotel: HotelType = req.body;
 
       //uploading image to cloudinary
       const uploadPromises = imageFiles.map(async (image) => {
@@ -30,6 +31,14 @@ router.post(
       });
 
       const imageUrls = await Promise.all(uploadPromises);
+      newHotel.imageUrls = imageUrls;
+      newHotel.lastUpdated = new Date();
+      newHotel.userId = req.userId;
+
+      const hotel = new Hotel(newHotel);
+      await hotel.save();
+
+      res.status(201).send(hotel);
     } catch (error) {
       console.log(error, "error creating hotel");
       res.status(500).json({ message: "Something went wrong" });
