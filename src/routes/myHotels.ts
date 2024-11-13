@@ -64,4 +64,9 @@ router.post(
   }
 );
 
+//api/getHotels
+router.get("/", verifyToken, async (req: Request, res: Response) => {
+
+})
+
 export default router;
